@@ -7,8 +7,10 @@ import { Board } from './entity/board.entity';
 @Injectable()
 export class BoardService {
     constructor(
+        // DI(종속성 주입, Dependency Injection)
         @InjectRepository(Board) private boardEntity: Repository<Board>,
     ) {}
+    // js는 기본적으로 비동기로 처리되기 때문에 동기로 동작하기 위해 async/await를 사용해줘야 한다. (데이터베이스 작업이 끝난 후 결과 값을 받을 수 있도록 설정)
 
     /**
      * 
@@ -31,7 +33,7 @@ export class BoardService {
      * 
      * @param boardId 
      * 
-     * 게시글 단일 조회
+     * 게시글 상세 조회
      */
     async getOneBoard(boardId: number): Promise<object> {
         const thisBoard = await this.boardEntity.findOneBy({ id: boardId });
@@ -39,10 +41,15 @@ export class BoardService {
         return thisBoard;
     }
 
-        /**
+    /**
      * 
      * @param boardId 
      * 
      * 게시글 목록 조회
      */
+    async getAllBoard(): Promise<object> {
+        return await this.boardEntity.find({
+            order: { createdAt: "ASC" }
+        });
+    }
 }

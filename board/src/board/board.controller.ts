@@ -25,7 +25,18 @@ export class BoardController {
         return {
             data,
             status: 200,
-            message: '게시글 단일 조회 성공'
+            message: '게시글 상세 조회 성공'
+        }
+    }
+
+    @Get()
+    async getAllBoard(): Promise<object> {
+        const data = await this.boardService.getAllBoard();
+
+        return {
+            data,
+            status: 200,
+            message: '게시글 목록 조회 성공'
         }
     }
 }

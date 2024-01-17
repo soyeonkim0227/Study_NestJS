@@ -71,4 +71,17 @@ export class BoardService {
            content 
         });
     }
+
+    /**
+     * 
+     * @param boardId 
+     * 
+     * 게시글 삭제
+     */
+    async deleteBoard(boardId: number) {
+        const thisBoard = await this.boardEntity.findOneBy({ id: boardId });
+        if (!thisBoard) throw new NotFoundException('존재하지 않는 게시글');
+
+        return await this.boardEntity.delete(boardId);
+    }
 }

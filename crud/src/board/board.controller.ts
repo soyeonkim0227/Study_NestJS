@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dto/createBoard.dto';
 import { UpdateBoardDto } from './dto/updateBoard.dto';
@@ -49,6 +49,16 @@ export class BoardController {
         return {
             status: 200,
             message: '게시글 수정 성공'
+        }
+    }
+
+    @Delete('/:boardId')
+    async deleteBoard(@Param('boardId') boardId: number) {
+        await this.boardService.deleteBoard(boardId);
+
+        return {
+            status: 200,
+            message: '게시글 삭제 성공'
         }
     }
 }

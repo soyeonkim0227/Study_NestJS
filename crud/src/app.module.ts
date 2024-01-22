@@ -11,7 +11,10 @@ import { config } from './ormconfig';
     BoardModule
   ],
   controllers: [],
+  // providers는 Nest Injector에게 인스턴스화 될 provider 리스트이다.
+  // provider는 Nest의 기반이 되는 개념으로 Injecting을 지원한다.
   providers: [
+    // 예외 처리를 전역으로 수행하기 위한 코드
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter

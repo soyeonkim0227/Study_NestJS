@@ -8,18 +8,19 @@ export class MailController {
     ) {}
 
     @Post('send?')
-    sendMail(@Query('email') email: string) {
-        this.mailService.sendMail(email);
+    async sendMail(@Query('email') email: string) {
+        const data = await this.mailService.sendMail(email);
 
         return {
+            data,
             status: 200,
             message: '인증번호가 발송되었습니다.'
         }
     }
 
     @Post('verify?')
-    verifyMail(@Query('email') email: string, @Query('code') code: string) {
-        this.mailService.verifyMail(email, code);
+    async verifyMail(@Query('email') email: string, @Query('code') code: string) {
+        await this.mailService.verifyMail(email, code);
 
         return {
             status: 200,

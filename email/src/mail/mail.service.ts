@@ -49,8 +49,8 @@ export class MailService {
         }
         const number = String(generateRandom(1, 999999)).padStart(6, '0');
 
-        // redis에 인증번호 저장
-        await this.redis.set(email, number, );
+        // redis에 인증번호 저장 (1000은 1초를 의미)
+        await this.redis.set(email, number, "EX", 1000*60);
 
         const mailOptions: EmailOptions = {
             to: email,
@@ -60,10 +60,6 @@ export class MailService {
         };
 
         await this.transporter.sendMail(mailOptions);
-
-        setTimeout(() => {
-            this.redis.set(email, null);
-        }, 1000 * 300);
 
         return number;
     }
@@ -80,6 +76,6 @@ export class MailService {
         const getCode = await this.redis.get(email);
         if (Number(code) != Number(getCode)) throw new ConflictException('인증번호가 일치하지 않습니다.');
 
-        return true;
+        return await this.redis.set(email, "1", "EX", 1000*60);
     }
 }
